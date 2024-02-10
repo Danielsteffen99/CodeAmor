@@ -51,10 +51,29 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  void logout() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const Login(),
+      ),
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    return const Scaffold(
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () => {
+              logout()
+            },
+            child: const Text('Log ud')
+          ),
+        ),
+      ),
     );
   }
 }

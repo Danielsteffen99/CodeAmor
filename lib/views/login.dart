@@ -1,7 +1,7 @@
+import 'package:codeamor/main.dart';
+import 'package:codeamor/views/create_user.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../main.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -30,9 +30,14 @@ class _LoginState extends State<Login> {
 
   void attemptLogin(String email, String password) async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password
+      );
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const MyHomePage(title: "CodeAmor"),
+        ),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found' || e.code == 'invalid-credential' || e.code == 'wrong-password') {
@@ -45,6 +50,14 @@ class _LoginState extends State<Login> {
         print(e);
       }
     }
+  }
+
+  void goToCreateUser() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const CreateUser(),
+      ),
+    );
   }
 
   @override
@@ -61,7 +74,7 @@ class _LoginState extends State<Login> {
                   controller: emailController,
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
-                    labelText: 'Enter your username',
+                    labelText: 'Email',
                   ),
                 ),
               ),
@@ -72,19 +85,42 @@ class _LoginState extends State<Login> {
                   obscureText: true,
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
-                    labelText: 'Enter your password',
+                    labelText: 'Adgangskode',
                   ),
                 ),
               ),
               Center(
-                  child: Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: ElevatedButton(
-                        onPressed: () => {
-                          attemptLogin(emailController.text, passwordController.text)
-                        },
-                        child: const Text('Login')),
-                  )
-              )
+                      onPressed: () => {
+                        attemptLogin(emailController.text, passwordController.text)
+                      },
+                      child: const Text('Login')),
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: Column(
+                    children: [
+                      const Text.rich(
+                        TextSpan(
+                          text: "Har du ingen bruger?"
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: ElevatedButton(
+                          onPressed: () => {
+                            goToCreateUser()
+                          },
+                          child: const Text('Opret bruger')
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           )
         ),
