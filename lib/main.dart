@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'state/ProfileState.dart';
 import 'views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -9,7 +11,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ProfileState(),
+      child: const MyApp()
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -66,13 +73,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () => {
-              logout()
-            },
-            child: const Text('Log ud')
-          ),
+        child: Column(
+          children: [
+            Consumer<ProfileState>(
+              builder: (context, user, child) {
+                return Text('UID: ${user.profile!.name}');
+              },
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: () => {
+                  logout()
+                },
+                child: const Text('Log ud')
+              ),
+            ),
+          ],
         ),
       ),
     );

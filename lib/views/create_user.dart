@@ -1,7 +1,9 @@
 import 'package:codeamor/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
+import '../state/ProfileState.dart';
 import 'login.dart';
 
 class CreateUser extends StatefulWidget {
@@ -31,10 +33,19 @@ class _CreateUserState extends State<CreateUser> {
 
   void createUser(String email, String password) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      var auth = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // TODO Call create profile here
+
+      // Ensures the context is mounted
+      if (!context.mounted) return;
+
+      // Sets the user in the global state
+      Provider.of<ProfileState>(context, listen: false).setUser(auth.user!.uid);
+
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const MyHomePage(title: "CodeAmor"),
