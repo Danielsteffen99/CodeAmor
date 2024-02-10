@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "780685111167",
+    "project_id": "codea-6d3fa",
+    "storage_bucket": "codea-6d3fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780685111167:android:bd34569a9cb7445065f44a",
+        "android_client_info": {
+          "package_name": "com.example.codeamor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJv3YY-mVXNPc25Oo6iIFhsv5z7FmUg34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
