@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -17,13 +17,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the firebase user
+    User? firebaseUser = FirebaseAuth.instance.currentUser;
+    // Define a widget
+    Widget widget;
+
+    // Assign widget based on availability of currentUser
+    if (firebaseUser != null) {
+      widget = const MyHomePage(title: "CodeAmor");
+    } else {
+      widget = const Login();
+    }
+
     return MaterialApp(
       title: 'CodeAmor',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orangeAccent),
         useMaterial3: true,
       ),
-      home: const Login(),
+      home: widget,
     );
   }
 }
