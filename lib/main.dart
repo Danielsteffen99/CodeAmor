@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'CodeAmor',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orangeAccent),
         useMaterial3: true,
