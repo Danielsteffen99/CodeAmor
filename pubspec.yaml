@@ -17,6 +17,8 @@ dependencies:
   firebase_auth: ^4.17.4
   provider: ^6.1.1
   cloud_firestore: ^4.15.4
+  firebase_storage: ^11.6.5
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -29,3 +31,4 @@ flutter:
 
   assets:
     - images/CodeAmorLogo.jpg
+    - images/
