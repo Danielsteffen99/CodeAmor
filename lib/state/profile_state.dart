@@ -1,8 +1,7 @@
-import 'package:codeamor/infrastructure/repositories/ProfileRepository.dart';
+import 'package:codeamor/infrastructure/repositories/Profile_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../models/Profile.dart';
-
+import '../models/profile.dart';
 
 class ProfileState extends ChangeNotifier {
   Profile? profile;
@@ -12,12 +11,18 @@ class ProfileState extends ChangeNotifier {
   ProfileState() {
     User? firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
-      setUser(firebaseUser.uid);
+      profileRepository.getProfile(firebaseUser.uid).then((p) => {
+            if (p != null) {setProfile(p)}
+          });
     }
   }
 
-  void setUser(String uid) {
-    profile = profileRepository.getProfile(uid);
+  bool isUserLoggedIn() {
+    return profile != null;
+  }
+
+  Future<void> setProfile(Profile p) async {
+    profile = p;
     notifyListeners();
   }
 
