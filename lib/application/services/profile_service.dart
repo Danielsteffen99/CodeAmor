@@ -1,9 +1,7 @@
 import 'package:codeamor/models/firebase_result.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../infrastructure/repositories/Profile_repository.dart';
+import '../../infrastructure/repositories/profile_repository.dart';
 import '../../models/profile.dart';
 import '../../state/profile_state.dart';
 
@@ -52,6 +50,10 @@ class ProfileService {
     }
 
     return FirebaseResult.success(p);
+  }
+
+  void logout() {
+    Provider.of<ProfileState>(context, listen: false).removeUser();
   }
 
  /* Future<FirebaseResult<Profile>> updateProfile() async {

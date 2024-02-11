@@ -35,4 +35,8 @@ class UserService {
       return FirebaseResult.error(e.code);
     }
   }
+
+  void logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }

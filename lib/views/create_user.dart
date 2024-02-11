@@ -1,7 +1,7 @@
 import 'package:codeamor/application/services/profile_service.dart';
 import 'package:codeamor/application/services/user_service.dart';
-import 'package:codeamor/main.dart';
 import 'package:flutter/material.dart';
+import 'Profile.dart';
 import 'login.dart';
 
 class CreateUser extends StatefulWidget {
@@ -60,7 +60,7 @@ class _CreateUserState extends State<CreateUser> {
     // Created account successfully and now redirects the user to the home page
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const MyHomePage(title: "CodeAmor"),
+        builder: (context) => Profile(),
       ),
     );
   }
