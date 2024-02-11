@@ -49,30 +49,31 @@ class _ProfileState extends State<Profile> {
               children: [
                 Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Consumer<ProfileState>(
-                      builder: (context, profile, child) {
-                        return CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage(profile.profile?.image ??
-                              "images/CodeAmorLogo.jpg"),
-                        );
-                      },
-                    )),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Center(
-                    child: Consumer<ProfileState>(
-                      builder: (context, profile, child) {
-                        return Text(profile.profile?.name ?? "",
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ));
-                      },
-                    ),
-                  ),
-                ),
+                    child: Row(children: [
+                      Consumer<ProfileState>(
+                        builder: (context, profile, child) {
+                          return CircleAvatar(
+                            radius: 50,
+                            backgroundImage: AssetImage(
+                                profile.profile?.image ??
+                                    "images/CodeAmorLogo.jpg"),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Consumer<ProfileState>(
+                        builder: (context, profile, child) {
+                          return Text(profile.profile?.name ?? "",
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ));
+                        },
+                      )
+                    ])),
                 const SizedBox(height: 20),
                 Button(
                     icon: Icons.person,
