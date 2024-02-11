@@ -1,8 +1,9 @@
 import 'package:codeamor/application/services/profile_service.dart';
 import 'package:codeamor/application/services/user_service.dart';
-import 'package:codeamor/main.dart';
 import 'package:codeamor/views/create_user.dart';
 import 'package:flutter/material.dart';
+
+import 'Profile.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -53,9 +54,9 @@ class _LoginState extends State<Login> {
 
     // Redirects the user to the main page
     if (!context.mounted) return;
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const MyHomePage(title: "CodeAmor"),
+        builder: (context) => Profile(),
       ),
     );
   }

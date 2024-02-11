@@ -1,4 +1,4 @@
-import 'package:codeamor/infrastructure/repositories/Profile_repository.dart';
+import 'package:codeamor/infrastructure/repositories/profile_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/profile.dart';

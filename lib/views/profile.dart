@@ -1,41 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(Profile());
-}
+import '../state/profile_state.dart';
 
 class Profile extends StatelessWidget {
+  const Profile({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.orange,
-        body: ProfileView(
-          username: 'Username',
-          profileImage: '',
-        ),
+    return Scaffold(
+      backgroundColor: Colors.orange,
+      body: Consumer<ProfileState>(
+        builder: (context, profile, child) {
+          return ProfileView(
+            name: profile.profile?.name ?? "",
+            profileImage: profile.profile?.image ?? "images/CodeAmorLogo.jpg",
+          );
+        },
       ),
     );
   }
 }
 
 class ProfileView extends StatelessWidget {
-  final String username;
+  final String name;
   final String profileImage;
 
   const ProfileView({
-    required this.username,
+    super.key,
+    required this.name,
     required this.profileImage,
   });
 
   @override
   Widget build(BuildContext context) {
-    return
-      SafeArea(child:
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return SafeArea(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: CircleAvatar(
@@ -47,7 +49,7 @@ class ProfileView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Center(
             child: Text(
-              username,
+              name,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -56,26 +58,39 @@ class ProfileView extends StatelessWidget {
             ),
           ),
         ),
-            SizedBox(height: 20),
-
-        Button(icon: Icons.person, label: 'Edit Profile', onPressed: () {
-          print('Profile');
-        }),
-        Button(icon: Icons.favorite, label: 'Swipe', onPressed: () {
-          print('Swipe');
-        }),
-        Button(icon: Icons.mail, label: 'Matches', onPressed: () {
-          print('Matches');
-        }),
-        Button(icon: Icons.settings, label: 'Settings', onPressed: () {
-          print('Settings');
-        }),
-        Button(icon: Icons.logout, label: 'Logout', onPressed: () {
-          print('Logout');
-        }),
-          ],
-        )
-      );
+        SizedBox(height: 20),
+        Button(
+            icon: Icons.person,
+            label: 'Edit Profile',
+            onPressed: () {
+              print('Profile');
+            }),
+        Button(
+            icon: Icons.favorite,
+            label: 'Swipe',
+            onPressed: () {
+              print('Swipe');
+            }),
+        Button(
+            icon: Icons.mail,
+            label: 'Matches',
+            onPressed: () {
+              print('Matches');
+            }),
+        Button(
+            icon: Icons.settings,
+            label: 'Settings',
+            onPressed: () {
+              print('Settings');
+            }),
+        Button(
+            icon: Icons.logout,
+            label: 'Logout',
+            onPressed: () {
+              print('Logout');
+            }),
+      ],
+    ));
   }
 }
 
