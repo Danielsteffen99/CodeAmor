@@ -1,7 +1,7 @@
 class Profile {
   String uid;
   var name = "";
-  var birthday = DateTime.now();
+  var birthday = DateTime.parse("20000101");
   var gender = "";
   var description = "";
   var image = "";

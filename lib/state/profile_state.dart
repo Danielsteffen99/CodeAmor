@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/profile.dart';
 
 class ProfileState extends ChangeNotifier {
-  Profile? profile;
+  Profile profile = Profile("");
 
   ProfileRepository profileRepository = ProfileRepository();
 
@@ -12,13 +12,24 @@ class ProfileState extends ChangeNotifier {
     User? firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
       profileRepository.getProfile(firebaseUser.uid).then((p) => {
-            if (p != null) {setProfile(p)}
+            if (p != null) {
+              setProfile(p)
+            }
           });
     }
   }
 
   bool isUserLoggedIn() {
-    return profile != null;
+    return profile.uid.isNotEmpty;
+  }
+
+  Profile getProfile() {
+    return profile;
+  }
+
+  void updateProfileLocal(Profile p) {
+    profile = p;
+    notifyListeners();
   }
 
   Future<void> setProfile(Profile p) async {
@@ -27,7 +38,7 @@ class ProfileState extends ChangeNotifier {
   }
 
   void removeUser() {
-    profile = null;
+    profile = Profile("");
     notifyListeners();
   }
 }

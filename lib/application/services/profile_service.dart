@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:codeamor/models/firebase_result.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../infrastructure/repositories/profile_repository.dart';
 import '../../models/profile.dart';
@@ -56,9 +60,27 @@ class ProfileService {
     Provider.of<ProfileState>(context, listen: false).removeUser();
   }
 
- /* Future<FirebaseResult<Profile>> updateProfile() async {
-      profile.profile?.name = "Lars";
-      await profileRepository.updateProfile(profile.profile!);
-      Provider.of<ProfileState>(context, listen: false).setProfile(profile.profile!.uid);
-  }*/
+  Future<FirebaseResult<String>> uploadProfileImage(XFile image, String fileName) async {
+    final storage = FirebaseStorage.instance.ref("profile_images");
+    List<int> bytes = await image.readAsBytes();
+    var base64 = "data:text/plain;base64,${base64Encode(bytes)}";
+    try {
+      await storage
+          .child(fileName)
+          .putString(base64, format: PutStringFormat.dataUrl);
+    } on FirebaseException catch (e) {
+      return FirebaseResult.error(e.code);
+    }
+
+    var url = await storage.child(fileName).getDownloadURL();
+    return FirebaseResult.success(url);
+  }
+
+  Future<FirebaseResult<Profile>> updateProfile(Profile profile) async {
+      await profileRepository.updateProfile(profile);
+      if (!context.mounted) return FirebaseResult.error("Context is mounted");
+      Provider.of<ProfileState>(context, listen: false).setProfile(profile);
+
+      return FirebaseResult.success(profile);
+  }
 }
