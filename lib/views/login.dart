@@ -1,7 +1,8 @@
+import 'package:codeamor/application/services/profile_service.dart';
+import 'package:codeamor/application/services/user_service.dart';
 import 'package:codeamor/main.dart';
 import 'package:codeamor/views/create_user.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -13,11 +14,15 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
+  late final UserService userService;
+  late final ProfileService profileService;
 
   @override
   void initState() {
     emailController = TextEditingController();
     passwordController = TextEditingController();
+    userService = UserService(context);
+    profileService = ProfileService(context);
     super.initState();
   }
 
@@ -29,27 +34,30 @@ class _LoginState extends State<Login> {
   }
 
   void attemptLogin(String email, String password) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password
-      );
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const MyHomePage(title: "CodeAmor"),
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found' || e.code == 'invalid-credential' || e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
+
+    var loginRes = await userService.login(email, password);
+
+    if (!loginRes.success) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Forkerte login oplysninger'),
           )
-        );
-      } else {
-        print(e);
-      }
+      );
     }
+
+    if (loginRes.result.user == null) return;
+    var loginProfileRes = await profileService.setLoggedInProfile(loginRes.result.user?.uid);
+
+    if (!loginProfileRes.success) return;
+
+    // Redirects the user to the main page
+    if (!context.mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const MyHomePage(title: "CodeAmor"),
+      ),
+    );
   }
 
   void goToCreateUser() {
