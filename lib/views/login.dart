@@ -63,68 +63,69 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: TextFormField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Email',
+      backgroundColor: Colors.orange,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/CodeAmorLogo.jpg"),
+            alignment: Alignment.topCenter,
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the column vertically
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: TextFormField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Email',
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: TextFormField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Adgangskode',
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: TextFormField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Adgangskode',
+                    ),
                   ),
                 ),
-              ),
-              Center(
-                child: Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    child: ElevatedButton(
-                      onPressed: () => {
-                        attemptLogin(emailController.text, passwordController.text)
-                      },
-                      child: const Text('Login')),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: ElevatedButton(
+                    onPressed: () => attemptLogin(emailController.text, passwordController.text),
+                    child: const Text('Login'),
+                  ),
                 ),
-              ),
-              Center(
-                child: Padding(
+                Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Column(
                     children: [
-                      const Text.rich(
-                        TextSpan(
-                          text: "Har du ingen bruger?"
-                        ),
+                      const Text(
+                        "Har du ingen bruger?",
+                        textAlign: TextAlign.center, // Center the text horizontally
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        child: ElevatedButton(
-                          onPressed: () => {
-                            goToCreateUser()
-                          },
-                          child: const Text('Opret bruger')
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () => goToCreateUser(),
+                        child: const Text('Opret bruger'),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          )
+            ),
+          ),
         ),
-      )
-    );
+      );
+    }
   }
-}
