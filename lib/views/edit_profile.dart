@@ -42,9 +42,9 @@ class _EditProfileState extends State<EditProfile> {
           Provider.of<ProfileState>(context, listen: false).getProfile();
       final DateTime? picked = await showDatePicker(
           context: context,
-          initialDate: profile!.birthday,
-          firstDate: DateTime(2015, 8),
-          lastDate: DateTime(2101));
+          initialDate: profile.birthday,
+          firstDate: DateTime(1900),
+          lastDate: DateTime.now());
       if (picked != null && picked != profile.birthday) {
         setState(() {
           profile.birthday = picked;
