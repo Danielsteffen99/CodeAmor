@@ -5,9 +5,11 @@ void main() {
 }
 
 class Profile extends StatelessWidget {
+  const Profile({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.orange,
@@ -24,39 +26,39 @@ class ProfileView extends StatelessWidget {
   final String username;
   final String profileImage;
 
-  const ProfileView({
+  const ProfileView({super.key,
     required this.username,
     required this.profileImage,
   });
 
+
   @override
   Widget build(BuildContext context) {
-    return
-      SafeArea(child:
-        Column(
+    return SafeArea(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: CircleAvatar(
-            radius: 50,
-            backgroundImage: AssetImage(profileImage),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Center(
-            child: Text(
-              username,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage(profileImage),
+                  ),
+                  const SizedBox(width: 20),
+                  Text(
+                    username,
+                    style: const TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
         Button(icon: Icons.person, label: 'Edit Profile', onPressed: () {
           print('Profile');
@@ -84,7 +86,7 @@ class Button extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
 
-  const Button({
+  const Button({super.key,
     required this.icon,
     required this.label,
     required this.onPressed,
@@ -103,10 +105,10 @@ class Button extends StatelessWidget {
               color: Colors.white,
               size: 24,
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
               ),
