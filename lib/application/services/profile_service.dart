@@ -52,6 +52,10 @@ class ProfileService {
     return FirebaseResult.success(p);
   }
 
+  void logout() {
+    Provider.of<ProfileState>(context, listen: false).removeUser();
+  }
+
  /* Future<FirebaseResult<Profile>> updateProfile() async {
       profile.profile?.name = "Lars";
       await profileRepository.updateProfile(profile.profile!);

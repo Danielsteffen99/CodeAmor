@@ -74,7 +74,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: Colors.orange,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("images/CodeAmorLogo.jpg"),
             alignment: Alignment.topCenter,

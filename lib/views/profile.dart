@@ -1,96 +1,111 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../application/services/profile_service.dart';
+import '../application/services/user_service.dart';
 import '../state/profile_state.dart';
+import 'login.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.orange,
-      body: Consumer<ProfileState>(
-        builder: (context, profile, child) {
-          return ProfileView(
-            name: profile.profile?.name ?? "",
-            profileImage: profile.profile?.image ?? "images/CodeAmorLogo.jpg",
-          );
-        },
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  late final UserService userService;
+  late final ProfileService profileService;
+
+  @override
+  void initState() {
+    userService = UserService(context);
+    profileService = ProfileService(context);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void logout() {
+    userService.logout();
+    profileService.logout();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const Login(),
       ),
     );
   }
-}
-
-class ProfileView extends StatelessWidget {
-  final String name;
-  final String profileImage;
-
-  const ProfileView({
-    super.key,
-    required this.name,
-    required this.profileImage,
-  });
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: CircleAvatar(
-            radius: 50,
-            backgroundImage: AssetImage(profileImage),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Center(
-            child: Text(
-              name,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 20),
-        Button(
-            icon: Icons.person,
-            label: 'Edit Profile',
-            onPressed: () {
-              print('Profile');
-            }),
-        Button(
-            icon: Icons.favorite,
-            label: 'Swipe',
-            onPressed: () {
-              print('Swipe');
-            }),
-        Button(
-            icon: Icons.mail,
-            label: 'Matches',
-            onPressed: () {
-              print('Matches');
-            }),
-        Button(
-            icon: Icons.settings,
-            label: 'Settings',
-            onPressed: () {
-              print('Settings');
-            }),
-        Button(
-            icon: Icons.logout,
-            label: 'Logout',
-            onPressed: () {
-              print('Logout');
-            }),
-      ],
-    ));
+        child: Scaffold(
+            backgroundColor: Colors.orange,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Consumer<ProfileState>(
+                      builder: (context, profile, child) {
+                        return CircleAvatar(
+                          radius: 50,
+                          backgroundImage: AssetImage(profile.profile?.image ??
+                              "images/CodeAmorLogo.jpg"),
+                        );
+                      },
+                    )),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Center(
+                    child: Consumer<ProfileState>(
+                      builder: (context, profile, child) {
+                        return Text(profile.profile?.name ?? "",
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ));
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Button(
+                    icon: Icons.person,
+                    label: 'Edit Profile',
+                    onPressed: () {
+                      print('Profile');
+                    }),
+                Button(
+                    icon: Icons.favorite,
+                    label: 'Swipe',
+                    onPressed: () {
+                      print('Swipe');
+                    }),
+                Button(
+                    icon: Icons.mail,
+                    label: 'Matches',
+                    onPressed: () {
+                      print('Matches');
+                    }),
+                Button(
+                    icon: Icons.settings,
+                    label: 'Settings',
+                    onPressed: () {
+                      print('Settings');
+                    }),
+                Button(
+                    icon: Icons.logout,
+                    label: 'Logout',
+                    onPressed: () {
+                      logout();
+                    }),
+              ],
+            )));
   }
 }
 
