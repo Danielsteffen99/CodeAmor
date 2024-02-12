@@ -1,35 +1,63 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'CardProvider.dart';
 
 class SwipeCard extends StatefulWidget {
   final String urlImage;
+  final bool isFront;
 
-  const SwipeCard({ Key? key, 
-    required this.urlImage,}) : super(key: key);
+
+  const SwipeCard({ Key? key,
+    required this.urlImage,
+    required this.isFront,
+
+  }) : super(key: key);
   
   @override
   State<SwipeCard> createState() => _SwipeCardState();
 }
 
 class _SwipeCardState extends State<SwipeCard> {
+
+  @override
+  void initState(){
+    super.initState();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      final size = MediaQuery.of(context).size;
+
+      final provider = Provider.of<CardProvider>(context, );
+      provider.setScreenSize(size);
+
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) => SizedBox.expand(
-    child: buildFrontCard(),
+    child: widget.isFront ? buildFrontCard() : buildCard(),
   );
 
   Widget buildFrontCard() => GestureDetector(
-    child: Builder(
-      builder: (context) {
+    child: LayoutBuilder(
+      builder: (context, constraints) {
         final provider = Provider.of<CardProvider>(context);
         final position = provider.position;
         final m = provider.isDragging ? 0 : 400;
 
+        final center = constraints.smallest.center(Offset.zero);
+        final angle = provider.angle * pi / 180;
+        final rotated = Matrix4.identity()..rotateZ(angle)
+          ..translate(center.dx, center.dy)
+          ..rotateZ(angle)
+          ..translate(-center.dx, -center.dy);
+
         return AnimatedContainer(
             curve: Curves.easeInOut,
             duration: Duration(microseconds: m),
-            transform: Matrix4.identity()
-              ..translate(position.dx, position.dy),
+            transform: rotated..translate(position.dx, position.dy),
             child: buildCard(),
         );
       }
@@ -47,7 +75,6 @@ class _SwipeCardState extends State<SwipeCard> {
       provider.endPosition();
     }
   );
-
 
   Widget buildCard() => ClipRRect(
     borderRadius: BorderRadius.circular(20),
