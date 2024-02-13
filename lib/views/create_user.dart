@@ -60,7 +60,7 @@ class _CreateUserState extends State<CreateUser> {
     // Created account successfully and now redirects the user to the home page
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => Profile(),
+        builder: (context) => const Profile(),
       ),
     );
   }

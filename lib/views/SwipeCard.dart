@@ -34,7 +34,6 @@ class _SwipeCardState extends State<SwipeCard> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) => SizedBox.expand(
     child: widget.isFront ? buildFrontCard() : buildCard(),

@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'SwipeCard.dart';
 
-void main() {
-  runApp(const ScreenSwipe());
-}
 
 class ScreenSwipe extends StatefulWidget {
   const ScreenSwipe({super.key});
