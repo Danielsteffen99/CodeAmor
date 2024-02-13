@@ -1,11 +1,11 @@
 import 'package:codeamor/views/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../application/services/profile_service.dart';
 import '../application/services/user_service.dart';
 import '../state/profile_state.dart';
 import 'login.dart';
+import 'swipe.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -90,7 +90,11 @@ class _ProfileState extends State<Profile> {
                     icon: Icons.favorite,
                     label: 'Swipe',
                     onPressed: () {
-                      print('Swipe');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const Swipe(),
+                        ),
+                      );
                     }),
                 Button(
                     icon: Icons.mail,
