@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/swipeCard.dart';
+import '../../models/swipe_card.dart';
 
 class SwipeCardComponent extends StatelessWidget {
   final SwipeCard swipeCard;

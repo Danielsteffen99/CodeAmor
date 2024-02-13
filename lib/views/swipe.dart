@@ -1,9 +1,10 @@
-import 'package:codeamor/views/components/SwipeCardComponent.dart';
+import 'package:codeamor/views/components/swipe_card_component.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
-import '../models/swipeCard.dart';
+import '../application/services/swipe_service.dart';
+import '../models/swipe_card.dart';
 
 
 class Swipe extends StatefulWidget {
@@ -14,45 +15,19 @@ class Swipe extends StatefulWidget {
 }
 
 class _SwipeState extends State<Swipe> {
+  late SwipeService swipeService;
   List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
-  // TODO Refactor this to load cards from the get potential profiles from the profile service
-  final List<String> _names = [
-    "Red",
-    "Blue",
-    "Green",
-    "Yellow",
-    "Orange",
-    "Grey",
-    "Purple",
-    "Pink"
-  ];
-  final List<int> _ages = [
-    1,2,3,4,5,6,7,8
-  ];
 
   @override
   void initState() {
+    swipeService = SwipeService();
     // TODO Refactor this to load cards from the get potential profiles from the profile service
-    for (int i = 0; i < _names.length; i++) {
-      _swipeItems.add(SwipeItem(
-          content: SwipeCard(name: _names[i], age: _ages[i]),
-          likeAction: () {
-            // TODO Call swipe service for like action
-          },
-          nopeAction: () {
-            // TODO Call swipe service for nope action
-          },
-          superlikeAction: () {
-            // TODO Call swipe service for super like action
-          },
-          onSlideUpdate: (SlideRegion? region) async {
-            // TODO Seems unnecessary for now, keep just for convenience else delete later
-            // TODO Maybe we can check here how far we are in the stack and fetch more profiles???
-          }));
+    for (int i = 0; i < 50; i++) {
+      var swipeCard = swipeService.getDummySwipeCard();
+      _swipeItems.add(SwipeItem(content: swipeCard));
     }
 
-    // TODO Maybe pass a provider with swipeitems, that can load more
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
     super.initState();
   }
@@ -84,6 +59,14 @@ class _SwipeState extends State<Swipe> {
             itemChanged: (SwipeItem item, int index) {
               // Runs each time you like, nope or superlikes
               print("item: ${item.content.name}, index: $index");
+              print(item.content.imageUrl);
+              // TODO Load more data
+              if (_swipeItems.length - index == 10) {
+                for (int i = 0; i < 50; i++) {
+                  var swipeCard = swipeService.getDummySwipeCard();
+                  _swipeItems.add(SwipeItem(content: swipeCard));
+                }
+              }
             },
             leftSwipeAllowed: true,
             rightSwipeAllowed: true,
