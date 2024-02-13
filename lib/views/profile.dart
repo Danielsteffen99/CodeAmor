@@ -1,3 +1,4 @@
+import 'package:codeamor/views/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -54,9 +55,9 @@ class _ProfileState extends State<Profile> {
                         builder: (context, profile, child) {
                           return CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage(
-                                profile.profile?.image ??
-                                    "images/CodeAmorLogo.jpg"),
+                            backgroundImage:  NetworkImage(
+                                profile.profile.image.isNotEmpty ? profile.profile.image : "https://firebasestorage.googleapis.com/v0/b/codea-6d3fa.appspot.com/o/profile_images%2Fprofile_picture.png?alt=media&token=01cb7f1b-3316-4a03-b721-aaa404788d7d"
+                            ),
                           );
                         },
                       ),
@@ -65,7 +66,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       Consumer<ProfileState>(
                         builder: (context, profile, child) {
-                          return Text(profile.profile?.name ?? "",
+                          return Text(profile.profile.name ?? "",
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -79,7 +80,11 @@ class _ProfileState extends State<Profile> {
                     icon: Icons.person,
                     label: 'Edit Profile',
                     onPressed: () {
-                      print('Profile');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const EditProfile(),
+                        ),
+                      );
                     }),
                 Button(
                     icon: Icons.favorite,
