@@ -1,8 +1,7 @@
-import 'package:codeamor/views/CardProvider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'state/profile_state.dart';
-import 'views/SwipeCard.dart';
 import 'views/Profile.dart';
 import 'views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
