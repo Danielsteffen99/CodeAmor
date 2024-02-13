@@ -1,8 +1,7 @@
-import 'package:codeamor/views/CardProvider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'state/profile_state.dart';
-import 'views/SwipeCard.dart';
 import 'views/Profile.dart';
 import 'views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,7 +17,6 @@ void main() async {
         providers: [(
           ChangeNotifierProvider(
             create: (context) => ProfileState())),
-          Provider(create: (context) => const SwipeCard(urlImage: ""))
         ],
             child: const MyApp()
     ),
@@ -34,7 +32,7 @@ class MyApp extends StatelessWidget {
 
     Widget widget;
     if (loggedIn) {
-      widget = Profile();
+      widget = const Profile();
     } else {
       widget = const Login();
     }
@@ -49,35 +47,4 @@ class MyApp extends StatelessWidget {
       home: widget,
     );
   }
-}
-
-  @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-      create: (context) => CardProvider(),
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-      ),
-  );
-
-
-class ScreenSwipe extends StatefulWidget {
-  const ScreenSwipe({super.key});
-
-  @override
-  ScreenSwipeState createState() => ScreenSwipeState();
-}
-
-class ScreenSwipeState extends State<ScreenSwipe> {
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(16),
-        child: const SwipeCard(
-            urlImage: ''
-        ),
-      ),
-    ),
-  );
 }
