@@ -143,10 +143,10 @@ class Button extends StatelessWidget {
               color: Colors.white,
               size: 24,
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
               ),
