@@ -1,10 +1,11 @@
 class Profile {
-  String uid;
+  late final String uid;
   var name = "";
   var birthday = DateTime.parse("20000101");
   var gender = "";
   var description = "";
   var image = "";
+
 
   Profile(this.uid);
 
