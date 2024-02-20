@@ -1,3 +1,4 @@
+import 'package:codeamor/models/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import '../application/services/profile_service.dart';
 import '../application/services/user_service.dart';
 import '../state/profile_state.dart';
 import 'login.dart';
+
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -18,6 +20,8 @@ class _EditProfileState extends State<EditProfile> {
   late final ProfileService profileService;
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
+  late Gender genderController;
+
 
   @override
   void initState() {
@@ -26,6 +30,7 @@ class _EditProfileState extends State<EditProfile> {
     nameController = TextEditingController(text: profile!.name);
     descriptionController = TextEditingController(text: profile.description);
     profileService = ProfileService(context);
+    genderController = profile.gender;
     super.initState();
   }
 
@@ -60,6 +65,7 @@ class _EditProfileState extends State<EditProfile> {
 
       profile.name = nameController.text;
       profile.description = descriptionController.text;
+      profile.gender = genderController;
 
       var res = await profileService.updateProfile(profile);
       if (!context.mounted) return;
@@ -184,6 +190,55 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                               ),
                               Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  child: DropdownButton<Gender>(
+                                    value: genderController,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        genderController = value!;
+                                      });
+                                    },
+                                    items: const [
+                                      DropdownMenuItem<Gender>(
+                                        value: Gender.male,
+                                        child: Text(
+                                          'Male',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ),
+                                      DropdownMenuItem<Gender>(
+                                        value: Gender.female,
+                                        child: Text(
+                                          'Female',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ),
+                                    ],
+                                    dropdownColor: Colors.white,
+                                    elevation: 4,
+                                    icon: const Icon(Icons.keyboard_arrow_down),
+                                    iconEnabledColor: Colors.black,
+                                    underline: const SizedBox(),
+                                    style: const TextStyle(color: Colors.black, fontSize: 16),
+                                    isExpanded: true,
+                                  ),
+                                ),
+                              ),
+                              Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 16),
                                 child: ElevatedButton(
@@ -199,6 +254,8 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ),
               );
-            })));
+            })
+        )
+    );
   }
 }

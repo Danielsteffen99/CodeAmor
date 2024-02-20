@@ -2,7 +2,6 @@ import 'package:codeamor/views/components/swipe_card_component.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
-
 import '../application/services/swipe_service.dart';
 import '../models/swipe_card.dart';
 
@@ -51,7 +50,7 @@ class _SwipeState extends State<Swipe> {
             },
             onStackFinished: () {
               // TODO This runs when there are no more cards in the stack.
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text("Stack Finished"),
                 duration: Duration(milliseconds: 500),
               ));
@@ -73,31 +72,54 @@ class _SwipeState extends State<Swipe> {
             upSwipeAllowed: true,
             fillSpace: true,
             likeTag: Container(
-              // TODO This is the like tag, make it prettier
-              margin: const EdgeInsets.all(15.0),
-              padding: const EdgeInsets.all(3.0),
+              margin: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(30.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.green)
+                  border: Border.all(color: Colors.green, width: 4.0)
               ),
-              child: Text('Like'),
+              child: const Text(
+                  'Like',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 42.0,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             nopeTag: Container(
               // TODO This is the nope tag, make it prettier
-              margin: const EdgeInsets.all(15.0),
-              padding: const EdgeInsets.all(3.0),
+              margin: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(30.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.red)
+                  border: Border.all(color: Colors.red, width: 4.0)
               ),
-              child: Text('Nope'),
+              child: const Text(
+                'NOPE',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 42.0,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             superLikeTag: Container(
               // TODO This is the super like tag, make it prettier
-              margin: const EdgeInsets.all(15.0),
-              padding: const EdgeInsets.all(3.0),
+              margin: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(30.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.orange)
+                  border: Border.all(color: Colors.lightBlue, width: 4.0)
               ),
-              child: Text('Super Like'),
+              child: const Text(
+                'Super Like',
+                style: TextStyle(
+                  color: Colors.lightBlue,
+                  fontSize: 42.0,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ),
@@ -111,20 +133,46 @@ class _SwipeState extends State<Swipe> {
                   onPressed: () {
                     _matchEngine!.currentItem?.nope();
                   },
-                  child: Text("Nope")),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, // Set button color here
+                ),
+                child: const Text(
+                  "Nope",
+                  style: TextStyle( fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
               ElevatedButton(
                 // TODO This is the super like button, make it prettier
                   onPressed: () {
                     _matchEngine!.currentItem?.superLike();
                   },
-                  child: Text("Superlike")),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlue, // Set button color here
+                  ),
+                  child: const Text(
+                      "Super Like",
+                      style: TextStyle( fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold
+                      ),
+                  )
+              ),
               ElevatedButton(
                 // TODO This is the like button, make it prettier
                   onPressed: () {
                     _matchEngine!.currentItem?.like();
                   },
-                  child: Text("Like"))
-            ],
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green, // Set button color here
+                  ),
+                  child: const Text(
+                    "Like",
+                    style: TextStyle( fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold
+                    ),
+                  )
+              )],
           ),
         )
       ])
