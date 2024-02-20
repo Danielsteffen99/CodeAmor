@@ -37,7 +37,7 @@ class _SwipeState extends State<Swipe> {
     return SwipeItem(
       content: sc,
       likeAction: () => {
-        swipeService.likeProfile(Provider.of<ProfileState>(context, listen: false).getProfile().uid, sc.uid);
+        swipeService.likeProfile(Provider.of<ProfileState>(context, listen: false).getProfile().uid, sc.uid)
       }
     );
   }

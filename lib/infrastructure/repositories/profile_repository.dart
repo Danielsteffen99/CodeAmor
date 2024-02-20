@@ -11,7 +11,7 @@ class ProfileRepository {
       "uid": profile.uid,
       "name": profile.name,
       "birthday": profile.birthday,
-      "gender": profile.gender,
+      "gender": profile.gender.name,
       "description": profile.description,
       "image": profile.image
     };
@@ -24,7 +24,7 @@ class ProfileRepository {
       "uid": profile.uid,
       "name": profile.name,
       "birthday": profile.birthday,
-      "gender": profile.gender,
+      "gender": profile.gender.name,
       "description": profile.description,
       "image": profile.image
     };
