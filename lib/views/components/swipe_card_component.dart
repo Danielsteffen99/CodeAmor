@@ -35,6 +35,10 @@ class SwipeCardComponent extends StatelessWidget {
                   style: const TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 Text(
+                  "UID: ${swipeCard.uid}",
+                  style: const TextStyle(fontSize: 20, color: Colors.white),
+                ),
+                Text(
                   "Beskrivelse: ${swipeCard.description}",
                   style: const TextStyle(fontSize: 20, color: Colors.white),
                 ),

@@ -63,12 +63,30 @@ class ProfileRepository {
         break;
     }
 
-    List<Profile> profiles = [];
+    List<Profile> result = [];
 
-    var compatibleProfiles = await db.collection("profiles")
+    var likes = await db.collection("likes")
+        .where("likerUid", isEqualTo: uid)
+        .get();
+    List<String> alreadyLikedUids = [];
+    for (var like in likes.docs) {
+      alreadyLikedUids.add(like["likedUid"]);
+    }
+    
+    var profiles = await db.collection("profiles")
         .where("gender", isEqualTo: oppositeGender)
         .get();
-    for (var p in compatibleProfiles.docs) {
+
+    // This should be done on database side, but Firestore does not allow to
+    // create a where statement which checks for values not being in an array,
+    // where the array exceeds 10 elements, which ours easily could..
+    var compatibleProfiles = [];
+    for (var cp in profiles.docs) {
+      if (alreadyLikedUids.contains(cp["uid"])) continue;
+      compatibleProfiles.add(cp);
+    }
+
+    for (var p in compatibleProfiles) {
       var t = Profile.full(
           p["uid"],
           p["name"],
@@ -76,8 +94,8 @@ class ProfileRepository {
           Gender.values.byName(p['gender']),
           p["description"],
           p["image"]);
-      profiles.add(t);
+      result.add(t);
     }
-    return profiles;
+    return result;
   }
 }

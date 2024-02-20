@@ -1,9 +1,12 @@
-import 'dart:math';
-
+import 'package:codeamor/infrastructure/repositories/like_repository.dart';
+import 'package:codeamor/infrastructure/repositories/match_repository.dart';
 import '../../infrastructure/repositories/profile_repository.dart';
 import '../../models/swipe_card.dart';
+
 class SwipeService {
   var profileRepository = ProfileRepository();
+  var likeRepository = LikeRepository();
+  var matchRepository = MatchRepository();
 
   Future<List<SwipeCard>> getProfilesToSwipe(String uid) async {
     var profiles = await profileRepository.getCompatibleProfiles(uid);
@@ -15,8 +18,15 @@ class SwipeService {
     return swipeCards;
   }
 
-  void likeProfile(String liker, String like) {
+  Future<bool> likeProfile(String likerUid, String likedUid) async {
+    likeRepository.createLike(likerUid, likedUid);
 
+    var isLiked = await likeRepository.isLiked(likedUid, likerUid);
+    if (!isLiked) return false;
+
+    // We have a match!
+    matchRepository.createMatches(likerUid, likedUid);
+    return true;
   }
 
   int calculateAge(DateTime dt) {

@@ -20,8 +20,8 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
+    emailController = TextEditingController(text: "lars.b.jn@gmail.com");
+    passwordController = TextEditingController(text: "Password123!");
     userService = UserService(context);
     profileService = ProfileService(context);
     super.initState();
