@@ -1,12 +1,13 @@
 enum Gender { male, female, }
 
 class Profile {
-  String uid;
+  late final String uid;
   var name = "";
   var birthday = DateTime.parse("20000101");
   Gender gender = Gender.male;
   var description = "";
   var image = "";
+
 
   Profile(this.uid);
 

@@ -1,3 +1,5 @@
+import 'package:codeamor/application/services/generate_dummy_data_service.dart';
+import 'package:codeamor/application/services/swipe_service.dart';
 import 'package:codeamor/models/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,6 +20,8 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   late final ProfileService profileService;
+  late final UserService userService;
+  late final GenerateDummyDataService generateDummyDataService;
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
   late Gender genderController;
@@ -27,9 +31,11 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     var profile =
     Provider.of<ProfileState>(context, listen: false).getProfile();
-    nameController = TextEditingController(text: profile!.name);
+    nameController = TextEditingController(text: profile.name);
     descriptionController = TextEditingController(text: profile.description);
     profileService = ProfileService(context);
+    userService = UserService(context);
+    generateDummyDataService = GenerateDummyDataService(profileService, userService);
     genderController = profile.gender;
     super.initState();
   }
