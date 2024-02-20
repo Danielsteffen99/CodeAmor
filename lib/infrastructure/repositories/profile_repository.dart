@@ -50,4 +50,34 @@ class ProfileRepository {
         dto.docs.first['description'],
         dto.docs.first['image']);
   }
+
+  Future<List<Profile>> getCompatibleProfiles(String uid) async {
+    var likerProfile = await db.collection("profiles").where("uid", isEqualTo: uid).get();
+    var oppositeGender = "";
+    switch (likerProfile.docs.first['gender']) {
+      case "male":
+        oppositeGender = "female";
+        break;
+      case "female":
+        oppositeGender = "male";
+        break;
+    }
+
+    List<Profile> profiles = [];
+
+    var compatibleProfiles = await db.collection("profiles")
+        .where("gender", isEqualTo: oppositeGender)
+        .get();
+    for (var p in compatibleProfiles.docs) {
+      var t = Profile.full(
+          p["uid"],
+          p["name"],
+          DateTime.fromMillisecondsSinceEpoch((p['birthday'] as Timestamp).millisecondsSinceEpoch),
+          p["gender"],
+          p["description"],
+          p["image"]);
+      profiles.add(t);
+    }
+    return profiles;
+  }
 }
