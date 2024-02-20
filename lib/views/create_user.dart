@@ -109,7 +109,8 @@ class _CreateUserState extends State<CreateUser> {
                 onPressed: () =>
                     {createUser(emailController.text, passwordController.text)},
                 child: const Text('Opret bruger')),
-          )),
+          )
+          ),
           Center(
               child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
