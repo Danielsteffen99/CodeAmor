@@ -46,7 +46,7 @@ class ProfileRepository {
         dto.docs.first['uid'],
         dto.docs.first['name'],
         DateTime.fromMillisecondsSinceEpoch((dto.docs.first['birthday'] as Timestamp).millisecondsSinceEpoch),
-        dto.docs.first['gender'],
+        Gender.values.byName(dto.docs.first['gender']),
         dto.docs.first['description'],
         dto.docs.first['image']);
   }
