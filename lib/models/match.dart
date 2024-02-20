@@ -1,4 +1,7 @@
 class Match {
-  late String matcherUid;
-  late String matchUid;
+  String id;
+  String uid;
+  DateTime time;
+
+  Match(this.id, this.uid, this.time);
 }
