@@ -1,4 +1,6 @@
 import 'package:codeamor/views/edit_profile.dart';
+
+import 'package:codeamor/views/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../application/services/profile_service.dart';
@@ -106,7 +108,11 @@ class _ProfileState extends State<Profile> {
                     icon: Icons.settings,
                     label: 'Settings',
                     onPressed: () {
-                      print('Settings');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsScreen(),
+                        ),
+                      );
                     }),
                 Button(
                     icon: Icons.logout,
