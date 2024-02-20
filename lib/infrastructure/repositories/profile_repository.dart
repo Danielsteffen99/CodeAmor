@@ -54,11 +54,11 @@ class ProfileRepository {
   Future<List<Profile>> getCompatibleProfiles(String uid) async {
     var likerProfile = await db.collection("profiles").where("uid", isEqualTo: uid).get();
     var oppositeGender = "";
-    switch (likerProfile.docs.first['gender']) {
-      case "male":
+    switch (Gender.values.byName(likerProfile.docs.first['gender'])) {
+      case Gender.male:
         oppositeGender = "female";
         break;
-      case "female":
+      case Gender.female:
         oppositeGender = "male";
         break;
     }
@@ -73,7 +73,7 @@ class ProfileRepository {
           p["uid"],
           p["name"],
           DateTime.fromMillisecondsSinceEpoch((p['birthday'] as Timestamp).millisecondsSinceEpoch),
-          p["gender"],
+          Gender.values.byName(p['gender']),
           p["description"],
           p["image"]);
       profiles.add(t);
