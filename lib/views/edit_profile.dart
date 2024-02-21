@@ -118,17 +118,21 @@ class _EditProfileState extends State<EditProfile> {
 
     return SafeArea(
         child: Scaffold(
-            backgroundColor: Colors.orange,
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: viewportConstraints.maxHeight,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+            appBar: AppBar(
+              backgroundColor: Colors.orange,
+              title: const Text('Edit Profile'),
+            ),
+            backgroundColor: Colors.orange[100],
+            body: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints viewportConstraints) {
+                  return SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: viewportConstraints.maxHeight,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                       const BackButton(),
                       Center(
                         child: Consumer<ProfileState>(
@@ -175,7 +179,7 @@ class _EditProfileState extends State<EditProfile> {
                                   children: [
                                     const Center(
                                       child: Text(
-                                        "Fødselsdag:",
+                                        'Fødselsdag:',
                                         style: TextStyle(
                                           fontSize: 18,
                                         ),

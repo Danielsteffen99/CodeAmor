@@ -1,65 +1,68 @@
 import 'package:flutter/material.dart';
-import '../../models/swipe_card.dart';
+import 'package:codeamor/infrastructure/repositories/match_repository.dart';
 
-class Matches extends StatelessWidget {
-  const Matches({super.key});
-
-  void match(String likerUid) async {
-    var matches = await matchRepository.getMatches(likerUid);
-  }
-
+class Matches extends StatefulWidget {
+  const Matches({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.orangeAccent,
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            "Matches",
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 20.0),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 4,
-              children: match.map((swipeCard) => Match(swipeCard: swipeCard)).toList(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  State<Matches> createState() => _MatchesState();
 }
 
-class Match extends StatelessWidget {
-  final SwipeCard swipeCard;
+class _MatchesState extends State<Matches> {
+  late Future<List<String>> _matchesFuture;
+  final MatchRepository matchRepository = MatchRepository();
 
-  const Match({Key? key, required this.swipeCard}) : super(key: key);
+  String? get likerUid => null;
+
+  @override
+  void initState() {
+    super.initState();
+    _matchesFuture = _fetchMatches();
+  }
+
+  Future<List<String>> _fetchMatches() async {
+    var matches = await matchRepository.getMatches(likerUid);
+    return matches;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      width: 80.0,
-      height: 80.0,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white,
-        image: DecorationImage(
-          image: NetworkImage(swipeCard.imageUrl),
-          fit: BoxFit.cover,
-        ),
-        border: Border.all(
-          color: Colors.orangeAccent,
-          width: 2.0,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Matches"),
+        backgroundColor: Colors.orange,
+      ),
+      backgroundColor: Colors.orange[100],
+      body: FutureBuilder(
+        future: _matchesFuture,
+        builder: (context, AsyncSnapshot<List<String>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else {
+            List<String> matches = snapshot.data!;
+            return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+              ),
+              itemCount: matches.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    radius: 30.0,
+                    backgroundImage: NetworkImage(matches[index]),
+                  ),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

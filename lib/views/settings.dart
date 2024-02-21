@@ -7,7 +7,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
         backgroundColor: Colors.orange,
       ),
       body: Container(
@@ -15,38 +15,33 @@ class SettingsScreen extends StatelessWidget {
         child: ListView(
           children: [
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('General'),
+              leading: const Icon(Icons.settings),
+              title: const Text('General'),
               onTap: () {
-                // Handle general settings
               },
             ),
             ListTile(
-              leading: Icon(Icons.privacy_tip),
-              title: Text('Privacy'),
+              leading: const Icon(Icons.privacy_tip),
+              title: const Text('Privacy'),
               onTap: () {
-                // Handle privacy settings
               },
             ),
             ListTile(
-              leading: Icon(Icons.data_usage),
-              title: Text('My Data'),
+              leading: const Icon(Icons.data_usage),
+              title: const Text('My Data'),
               onTap: () {
-                // Handle data settings
               },
             ),
             ListTile(
-              leading: Icon(Icons.description),
-              title: Text('License'),
+              leading: const Icon(Icons.description),
+              title: const Text('License'),
               onTap: () {
-                // Handle license settings
               },
             ),
             ListTile(
-              leading: Icon(Icons.lightbulb_outline),
-              title: Text('Light/Dark Mode'),
+              leading: const Icon(Icons.lightbulb_outline),
+              title: const Text('Light/Dark Mode'),
               onTap: () {
-                // Handle light/dark mode settings
               },
             ),
           ],

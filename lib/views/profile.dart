@@ -1,4 +1,5 @@
 import 'package:codeamor/views/edit_profile.dart';
+import 'package:codeamor/views/matches.dart';
 
 import 'package:codeamor/views/settings.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,8 @@ class _ProfileState extends State<Profile> {
                               ));
                         },
                       )
-                    ])),
+                    ])
+                ),
                 const SizedBox(height: 20),
                 Button(
                     icon: Icons.person,
@@ -102,7 +104,11 @@ class _ProfileState extends State<Profile> {
                     icon: Icons.mail,
                     label: 'Matches',
                     onPressed: () {
-                      print('Matches');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const Matches(),
+                        ),
+                      );
                     }),
                 Button(
                     icon: Icons.settings,
