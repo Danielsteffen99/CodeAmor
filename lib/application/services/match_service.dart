@@ -1,7 +1,6 @@
 import 'package:codeamor/infrastructure/repositories/match_repository.dart';
 import 'package:codeamor/infrastructure/repositories/profile_repository.dart';
 import 'package:codeamor/models/match_profile.dart';
-import '../../models/match.dart';
 
 
 class MatchService {

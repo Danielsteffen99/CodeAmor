@@ -6,24 +6,24 @@ class MatchRepository {
 
   Future<void> createMatches(String uid1, String uid2) async {
     var matchTime = DateTime.now();
-    final firstMatch = <String, dynamic>{
+    final match = <String, dynamic>{
       "uids": [uid1, uid2],
       "time": matchTime
     };
-    await db.collection("matches").add(firstMatch);
+    await db.collection("matches").add(match);
   }
 
   Future<List<Match>> getMatches(String uid) async {
-    var dto = await db.collection("matches")
+    var result = await db.collection("matches")
         .where("uids", arrayContains: uid)
         .get();
 
     List<Match> matches = [];
 
-    for (var match in dto.docs) {
+    for (var match in result.docs) {
       List<dynamic> ids = match["uids"];
       ids.remove(uid);
-      matches.add(Match(match.id, ids.first, DateTime.fromMillisecondsSinceEpoch((dto.docs.first['time'] as Timestamp).millisecondsSinceEpoch)));
+      matches.add(Match(match.id, ids.first, DateTime.fromMillisecondsSinceEpoch((match['time'] as Timestamp).millisecondsSinceEpoch)));
     }
 
     return matches;

@@ -32,12 +32,12 @@ class _MatchesState extends State<Matches> {
     return await matchService.getMatches(uid);
   }
 
-  Future<void> _dialogBuilder(BuildContext context, Profile profile) {
+  Future<void> _dialogBuilder(BuildContext context, MatchProfile mp) {
     return showDialog<void>(
       context: context,
       useSafeArea: true,
       builder: (BuildContext context) {
-        return ProfileComponent(profile: profile);
+        return ProfileComponent(matchProfile: mp);
       },
     );
   }
@@ -75,7 +75,7 @@ class _MatchesState extends State<Matches> {
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
                       onTap: () =>
-                          {_dialogBuilder(context, matches[index].profile)},
+                          {_dialogBuilder(context, matches[index])},
                       child: CircleAvatar(
                         radius: 30.0,
                         backgroundImage:
