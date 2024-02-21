@@ -1,8 +1,8 @@
 class Message {
   late final String matchId;
   late final String senderUid;
+  late final DateTime timestamp;
   late final String message;
-  late final timestamp = DateTime.now();
 
-  Message(this.matchId, this.senderUid, this.message);
+  Message(this.matchId, this.senderUid, this.timestamp, this.message);
 }

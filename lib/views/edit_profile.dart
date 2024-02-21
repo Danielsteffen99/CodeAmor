@@ -10,7 +10,6 @@ import '../application/services/user_service.dart';
 import '../state/profile_state.dart';
 import 'login.dart';
 
-
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
 
@@ -26,16 +25,16 @@ class _EditProfileState extends State<EditProfile> {
   late final TextEditingController descriptionController;
   late Gender genderController;
 
-
   @override
   void initState() {
     var profile =
-    Provider.of<ProfileState>(context, listen: false).getProfile();
+        Provider.of<ProfileState>(context, listen: false).getProfile();
     nameController = TextEditingController(text: profile.name);
     descriptionController = TextEditingController(text: profile.description);
     profileService = ProfileService(context);
     userService = UserService(context);
-    generateDummyDataService = GenerateDummyDataService(profileService, userService);
+    generateDummyDataService =
+        GenerateDummyDataService(profileService, userService);
     genderController = profile.gender;
     super.initState();
   }
@@ -47,7 +46,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-
     Future<void> selectDate(BuildContext context) async {
       var profile =
           Provider.of<ProfileState>(context, listen: false).getProfile();
@@ -67,7 +65,7 @@ class _EditProfileState extends State<EditProfile> {
 
     void save() async {
       var profile =
-        Provider.of<ProfileState>(context, listen: false).getProfile();
+          Provider.of<ProfileState>(context, listen: false).getProfile();
 
       profile.name = nameController.text;
       profile.description = descriptionController.text;
@@ -77,17 +75,13 @@ class _EditProfileState extends State<EditProfile> {
       if (!context.mounted) return;
 
       if (res.success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Oplysninger er gemt!'),
-            )
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Oplysninger er gemt!'),
+        ));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Der gik noget galt :/'),
-            )
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Der gik noget galt :/'),
+        ));
       }
     }
 
@@ -98,16 +92,15 @@ class _EditProfileState extends State<EditProfile> {
         return;
       }
       var profile =
-      Provider.of<ProfileState>(context, listen: false).getProfile();
-      var uploadRes = await profileService.uploadProfileImage(image, profile.uid);
+          Provider.of<ProfileState>(context, listen: false).getProfile();
+      var uploadRes =
+          await profileService.uploadProfileImage(image, profile.uid);
 
       if (!context.mounted) return;
       if (!uploadRes.success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Der gik noget galt :/'),
-            )
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Der gik noget galt :/'),
+        ));
         return;
       }
       profile.image = uploadRes.result;
@@ -118,7 +111,11 @@ class _EditProfileState extends State<EditProfile> {
 
     return SafeArea(
         child: Scaffold(
-            backgroundColor: Colors.orange,
+            appBar: AppBar(
+              backgroundColor: Colors.orange,
+              title: const Text('Edit Profile'),
+            ),
+            backgroundColor: Colors.orange[100],
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
               return SingleChildScrollView(
@@ -129,18 +126,22 @@ class _EditProfileState extends State<EditProfile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const BackButton(),
                       Center(
                         child: Consumer<ProfileState>(
                           builder: (context, profile, child) {
                             // On Click image
                             return Column(children: [
-                              GestureDetector(
-                                onTap: () => {selectProfilePicture()},
-                                child: CircleAvatar(
-                                  radius: 120,
-                                  backgroundImage: NetworkImage(
-                                      profile.profile.image.isNotEmpty ? profile.profile.image : "https://firebasestorage.googleapis.com/v0/b/codea-6d3fa.appspot.com/o/profile_images%2Fprofile_picture.png?alt=media&token=01cb7f1b-3316-4a03-b721-aaa404788d7d"
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 16),
+                                child: GestureDetector(
+                                  onTap: () => {selectProfilePicture()},
+                                  child: CircleAvatar(
+                                    radius: 120,
+                                    backgroundImage: NetworkImage(profile
+                                            .profile.image.isNotEmpty
+                                        ? profile.profile.image
+                                        : "https://firebasestorage.googleapis.com/v0/b/codea-6d3fa.appspot.com/o/profile_images%2Fprofile_picture.png?alt=media&token=01cb7f1b-3316-4a03-b721-aaa404788d7d"),
                                   ),
                                 ),
                               ),
@@ -175,7 +176,7 @@ class _EditProfileState extends State<EditProfile> {
                                   children: [
                                     const Center(
                                       child: Text(
-                                        "Fødselsdag:",
+                                        'Fødselsdag:',
                                         style: TextStyle(
                                           fontSize: 18,
                                         ),
@@ -196,7 +197,8 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 16),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -210,7 +212,8 @@ class _EditProfileState extends State<EditProfile> {
                                       ),
                                     ],
                                   ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
                                   child: DropdownButton<Gender>(
                                     value: genderController,
                                     onChanged: (value) {
@@ -239,7 +242,8 @@ class _EditProfileState extends State<EditProfile> {
                                     icon: const Icon(Icons.keyboard_arrow_down),
                                     iconEnabledColor: Colors.black,
                                     underline: const SizedBox(),
-                                    style: const TextStyle(color: Colors.black, fontSize: 16),
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 16),
                                     isExpanded: true,
                                   ),
                                 ),
@@ -260,8 +264,6 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ),
               );
-            })
-        )
-    );
+            })));
   }
 }
