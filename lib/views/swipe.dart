@@ -50,7 +50,7 @@ class _SwipeState extends State<Swipe> {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data != null) {
               for (var sc in snapshot.data!) {
-                _swipeItems.add(SwipeItem(content: sc));
+                _swipeItems.add(createSwipeItem(sc));
               }
             }
             return Scaffold(
