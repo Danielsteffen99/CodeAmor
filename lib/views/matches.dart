@@ -1,5 +1,11 @@
+import 'package:codeamor/application/services/match_service.dart';
+import 'package:codeamor/models/match_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:codeamor/infrastructure/repositories/match_repository.dart';
+import 'package:provider/provider.dart';
+import '../models/match.dart';
+
+import '../state/profile_state.dart';
 
 class Matches extends StatefulWidget {
   const Matches({Key? key}) : super(key: key);
@@ -9,20 +15,18 @@ class Matches extends StatefulWidget {
 }
 
 class _MatchesState extends State<Matches> {
-  late Future<List<String>> _matchesFuture;
-  final MatchRepository matchRepository = MatchRepository();
-
-  String? get likerUid => null;
+  late Future<List<Match>> _matchesFuture;
+  late final MatchService matchService;
 
   @override
   void initState() {
     super.initState();
-    _matchesFuture = _fetchMatches();
+    matchService = MatchService();
   }
 
-  Future<List<String>> _fetchMatches() async {
-    var matches = await matchRepository.getMatches(likerUid);
-    return matches;
+  Future<List<MatchProfile>> _fetchMatches() async {
+    var uid = Provider.of<ProfileState>(context, listen: false).getProfile().uid;
+    return await matchService.getMatches(uid);
   }
 
   @override
@@ -34,8 +38,8 @@ class _MatchesState extends State<Matches> {
       ),
       backgroundColor: Colors.orange[100],
       body: FutureBuilder(
-        future: _matchesFuture,
-        builder: (context, AsyncSnapshot<List<String>> snapshot) {
+        future: _fetchMatches(),
+        builder: (context, AsyncSnapshot<List<MatchProfile>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -45,7 +49,7 @@ class _MatchesState extends State<Matches> {
               child: Text('Error: ${snapshot.error}'),
             );
           } else {
-            List<String> matches = snapshot.data!;
+            List<MatchProfile> matches = snapshot.data!;
             return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
@@ -56,7 +60,7 @@ class _MatchesState extends State<Matches> {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     radius: 30.0,
-                    backgroundImage: NetworkImage(matches[index]),
+                    backgroundImage: NetworkImage(matches[index].profile.image),
                   ),
                 );
               },
