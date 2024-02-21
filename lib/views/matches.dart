@@ -1,10 +1,12 @@
 import 'package:codeamor/application/services/match_service.dart';
 import 'package:codeamor/models/match_profile.dart';
+import 'package:codeamor/views/components/profile_component.dart';
 import 'package:flutter/material.dart';
 import 'package:codeamor/infrastructure/repositories/match_repository.dart';
 import 'package:provider/provider.dart';
 import '../models/match.dart';
 
+import '../models/profile.dart';
 import '../state/profile_state.dart';
 
 class Matches extends StatefulWidget {
@@ -25,8 +27,19 @@ class _MatchesState extends State<Matches> {
   }
 
   Future<List<MatchProfile>> _fetchMatches() async {
-    var uid = Provider.of<ProfileState>(context, listen: false).getProfile().uid;
+    var uid =
+        Provider.of<ProfileState>(context, listen: false).getProfile().uid;
     return await matchService.getMatches(uid);
+  }
+
+  Future<void> _dialogBuilder(BuildContext context, Profile profile) {
+    return showDialog<void>(
+      context: context,
+      useSafeArea: true,
+      builder: (BuildContext context) {
+        return ProfileComponent(profile: profile);
+      },
+    );
   }
 
   @override
@@ -50,20 +63,28 @@ class _MatchesState extends State<Matches> {
             );
           } else {
             List<MatchProfile> matches = snapshot.data!;
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
+            return Container(
+              padding: const EdgeInsets.all(10),
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemCount: matches.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () =>
+                          {_dialogBuilder(context, matches[index].profile)},
+                      child: CircleAvatar(
+                        radius: 30.0,
+                        backgroundImage:
+                            NetworkImage(matches[index].profile.image),
+                      ),
+                    ),
+                  );
+                },
               ),
-              itemCount: matches.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage: NetworkImage(matches[index].profile.image),
-                  ),
-                );
-              },
             );
           }
         },
@@ -71,6 +92,3 @@ class _MatchesState extends State<Matches> {
     );
   }
 }
-
-
-

@@ -67,85 +67,85 @@ class _SwipeState extends State<Swipe> {
                 return Scaffold(
                     backgroundColor: Colors.orange,
                     body: Stack(children: [
-                        Align(
-                        alignment: Alignment.topCenter,
-                        child:SizedBox(
-                        height:
-                            MediaQuery.of(context).size.height - kToolbarHeight * 2.5,
-                        width: MediaQuery.of(context).size.width - 30,
-                        child: SwipeCards(
-                          matchEngine: _matchEngine,
-                          itemBuilder: (BuildContext context, int index) {
-                            return SwipeCardComponent(
-                                swipeCard: _swipeItems[index].content);
-                          },
-                          onStackFinished: () {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text(
-                                  "Der er ikke flere profiler at finde. Kom igen et andet tidspunkt!"),
-                              duration: Duration(milliseconds: 2000),
-                            ));
-                          },
-                          itemChanged: (SwipeItem item, int index) {
-                            // Runs each time you like, nope or superlikes
-                            // TODO Load more data
-                            if (_swipeItems.length - index == 10) {}
-                          },
-                          leftSwipeAllowed: true,
-                          rightSwipeAllowed: true,
-                          upSwipeAllowed: true,
-                          fillSpace: true,
-                          likeTag: Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(30.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.green, width: 4.0)),
-                            child: const Text(
-                              'Like',
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 42.0,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
+                      Align(
+                          alignment: Alignment.topCenter,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height -
+                                kToolbarHeight * 2.5,
+                            width: MediaQuery.of(context).size.width - 30,
+                            child: SwipeCards(
+                              matchEngine: _matchEngine,
+                              itemBuilder: (BuildContext context, int index) {
+                                return SwipeCardComponent(
+                                    swipeCard: _swipeItems[index].content);
+                              },
+                              onStackFinished: () {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      "Der er ikke flere profiler at finde. Kom igen et andet tidspunkt!"),
+                                  duration: Duration(milliseconds: 2000),
+                                ));
+                              },
+                              itemChanged: (SwipeItem item, int index) {
+                                // Runs each time you like, nope or superlikes
+                                // TODO Load more data
+                                if (_swipeItems.length - index == 10) {}
+                              },
+                              leftSwipeAllowed: true,
+                              rightSwipeAllowed: true,
+                              upSwipeAllowed: true,
+                              fillSpace: true,
+                              likeTag: Container(
+                                margin: const EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.all(30.0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.green, width: 4.0)),
+                                child: const Text(
+                                  'Like',
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 42.0,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              nopeTag: Container(
+                                margin: const EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.all(30.0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.red, width: 4.0)),
+                                child: const Text(
+                                  'NOPE',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 42.0,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              superLikeTag: Container(
+                                margin: const EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.all(30.0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.lightBlue, width: 4.0)),
+                                child: const Text(
+                                  'Super Like',
+                                  style: TextStyle(
+                                    color: Colors.lightBlue,
+                                    fontSize: 42.0,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          nopeTag: Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(30.0),
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.red, width: 4.0)),
-                            child: const Text(
-                              'NOPE',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 42.0,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          superLikeTag: Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(30.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.lightBlue, width: 4.0)),
-                            child: const Text(
-                              'Super Like',
-                              style: TextStyle(
-                                color: Colors.lightBlue,
-                                fontSize: 42.0,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )),
+                          )),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Row(
